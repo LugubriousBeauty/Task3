@@ -1,11 +1,11 @@
 let fragment = document.createElement('div')
 fragment.classList.add('second-row', 'events-row','row')
 
-for(const event of events) {
+for(const event of data.events) {
     let card = document.createElement('div')
     card.classList.add('card')
     card.style.width = '18rem'
-    if(event.date.substr(0,4) == '2021') {
+    if(event.date < data.currentDate) {
         card.innerHTML = `<img id="img-1" src="${event.image}" class="card-img-top" alt="card img"/> 
         <h5 class="card-title">${event.name}</h5>
         <div class="card-body">

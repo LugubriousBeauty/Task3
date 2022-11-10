@@ -1,5 +1,6 @@
-
-events = [
+let data = {
+  "currentDate": "2022-01-01",
+  "events": [
     {
       _id: 1,
       "image":"https://amazingeventsapi.herokuapp.com/api/img/Feriadecomidas7.jpg",
@@ -169,3 +170,4 @@ events = [
       "price":250
     }
   ]
+}

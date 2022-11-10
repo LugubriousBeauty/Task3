@@ -1,7 +1,7 @@
 let fragment = document.createElement('div')
 fragment.classList.add('second-row', 'row')
 
-renderizarCartas(events)
+renderizarCartas(data.events)
 
 function renderizarCartas(array) {
     fragment.innerHTML = ''
@@ -35,7 +35,7 @@ let checksContainer = document.querySelector('.checks')
 
 
 let count = 1;
-events.forEach(event => {
+data.events.forEach(event => {
     if((Array.from(checksContainer.children)).find(c => c.outerText === event.category)) {
         return;
     }
@@ -69,7 +69,7 @@ function limpiarFiltro(array, texto) {
 }
 
 let filtradasPorCat = [];
-let noFiltradas = events;
+let noFiltradas = data.events;
 
 const formulario = document.querySelector('.index-form');  
 
@@ -80,7 +80,7 @@ formulario.addEventListener('submit', e => {
     if(filtradasPorCat.length) {
         filtradasTexto = filtrarTexto(filtradasPorCat, texto)
     } else {
-        filtradasTexto = filtrarTexto(events, texto)
+        filtradasTexto = filtrarTexto(data.events, texto)
     }
     renderizarCartas(filtradasTexto)
 })
@@ -97,7 +97,7 @@ checks.forEach(check => {
             let texto = check.children[1].textContent
             filtradasPorCat = limpiarFiltro(filtradasPorCat, texto)
             if(!filtradasPorCat.length) {
-                renderizarCartas(events)
+                renderizarCartas(data.events)
             } else {
                 renderizarCartas(filtradasPorCat)
             }
