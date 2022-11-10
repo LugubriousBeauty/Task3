@@ -14,7 +14,6 @@ main {
 .navbar {
     background-color: rgba(128, 128, 128, 0.767) !important;
     height: 13vh;
-    border: 1.5px solid black;
 }
 .navbar-collapse.collapsing,.navbar-collapse.show {
     display: flex;
@@ -55,18 +54,22 @@ button:hover {
 .checks {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .second-row {
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
-    width: 100%;
+    align-self: center;
+    width: 90%;
     justify-content: center;
 }
 #img-1, #img-3, #img-4, #img-7 {
     height: 10.9rem;
+    width: 100%;
+    object-fit: cover;
 }
-.card-body {
+.card-body, .bottom, .card-title {
     padding: .7rem !important;
 }
 .body-card {
@@ -74,6 +77,9 @@ button:hover {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+}
+.card {
+    padding: 0 !important;
 }
 .bottom {
     display: flex;
@@ -148,7 +154,10 @@ td {
     flex-direction: column;
     align-items: center;
 }
-
+section {
+    display: flex;
+    flex-direction: column;
+}
 #card-section {
     padding: 2rem;
     border: 2px solid black;
