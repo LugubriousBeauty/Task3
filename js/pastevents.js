@@ -1,31 +1,34 @@
 let fragment = document.createElement('div')
-fragment.classList.add('second-row', 'row')
+fragment.classList.add('second-row', 'events-row','row')
 
 renderizarCartas(data.events)
 
 function renderizarCartas(array) {
     fragment.innerHTML = ''
     if(!array.length) {
-        fragment.innerHTML = `<h3 style="text-align: center">No hay eventos que coincidan con el criterio de búsqueda</h3>`
+        fragment.innerHTML =`<h3 style="text-align: center">No hay eventos que coincidan con el criterio de búsqueda</h3>`
     } else {
         array.forEach(event => {
-            let card = document.createElement('div')
-            card.classList.add('card')
-            card.style.width = '18rem'
-            card.innerHTML = `<img id="img-1" src="${event.image}" class="card-img-top" alt="card img"/> 
-            <h5 class="card-title">${event.name}</h5>
-            <div class="card-body">
-                <p class="card-text">${event.description}</p>
-            </div>
-            <div class="bottom">
-                <div>price: $${event.price}</div>
-                <button type="button" class="btn btn-primary">ver más</button>
-            </div>`
-            fragment.appendChild(card)
+            if(event.date < data.currentDate) {
+                let card = document.createElement('div')
+                card.classList.add('card')
+                card.style.width = '18rem'
+                card.innerHTML = `<img id="img-1" src="${event.image}" class="card-img-top" alt="card img"/> 
+                <h5 class="card-title">${event.name}</h5>
+                <div class="card-body">
+                    <p class="card-text">${event.description}</p>
+                </div>
+                <div class="bottom">
+                    <div>price: $${event.price}</div>
+                    <a href="./details.html?id=${event._id}" type="button" class="btn btn-primary" >more details</a>
+                </div>`
+                fragment.appendChild(card)
+            } else {
+                return;
+            }
         })
     }
 }
-
 
 console.log(fragment)
 let section = document.querySelector('section')
@@ -69,7 +72,7 @@ function limpiarFiltro(array, texto) {
 }
 
 let filtradasPorCat = [];
-let noFiltradas = data.events;
+let noFiltradas = data.events.filter(event => event.date < data.currentDate)
 
 const formulario = document.querySelector('.index-form');  
 
@@ -80,7 +83,7 @@ formulario.addEventListener('submit', e => {
     if(filtradasPorCat.length) {
         filtradasTexto = filtrarTexto(filtradasPorCat, texto)
     } else {
-        filtradasTexto = filtrarTexto(data.events, texto)
+        filtradasTexto = filtrarTexto(noFiltradas, texto)
     }
     renderizarCartas(filtradasTexto)
 })
@@ -104,6 +107,3 @@ checks.forEach(check => {
         }
     })
 }) 
-
-
-
