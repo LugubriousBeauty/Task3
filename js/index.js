@@ -48,13 +48,13 @@ data.events.forEach(event => {
     count++;
 })
 
+
+
+
 function filtrarTexto(array, texto) {
-    if(texto.length) {
-        cartasFiltradas = array.filter(event => (event.name).toLowerCase().includes(texto.toLowerCase()) || (event.description).toLowerCase().includes(texto.toLowerCase()))
-        console.log(cartasFiltradas)
-        return cartasFiltradas
-    } 
-    return array
+    cartasFiltradas = array.filter(event => (event.name).toLowerCase().includes(texto.toLowerCase()) || (event.description).toLowerCase().includes(texto.toLowerCase()))
+    console.log(cartasFiltradas)
+    return cartasFiltradas
 }
 
 function filtrarCategoria(array, texto) {
@@ -63,27 +63,34 @@ function filtrarCategoria(array, texto) {
     return cartasFiltradas
 } 
 
+function filtrarTodo(filtradasTexto, filtradasCategoria) {
+    let filtradas;
+    if(!filtradasTexto.length && !filtradasCategoria.length) {
+        filtradas = data.events
+    } else if(!filtradasCategoria.length) {
+        filtradas = filtradasTexto
+    } else if (!filtradasTexto.length) {
+        filtradas = filtradasCategoria
+    } else {
+        filtradas = filtradasCategoria.filter(evento => filtradasTexto.includes(evento))
+    }
+    renderizarCartas(filtradas)
+}
+
 
 function limpiarFiltro(array, texto) {
-    eliminarFiltro = array.filter(event => (event.category).toLowerCase() !== texto.toLowerCase())
+    let eliminarFiltro = array.filter(event => (event.category).toLowerCase() !== texto.toLowerCase())
     return eliminarFiltro;
 }
 
-let filtradasPorCat = [];
-let noFiltradas = data.events;
+let filtradasCategoria = []
+let filtradasTexto = data.events
 
-const formulario = document.querySelector('.index-form');  
-
-formulario.addEventListener('submit', e => {
-    e.preventDefault()
-    let texto = e.target[0].value;
-    let filtradasTexto;
-    if(filtradasPorCat.length) {
-        filtradasTexto = filtrarTexto(filtradasPorCat, texto)
-    } else {
-        filtradasTexto = filtrarTexto(data.events, texto)
-    }
-    renderizarCartas(filtradasTexto)
+const input = document.querySelector('.form-control');  
+input.addEventListener('keyup', (e) => {
+    let texto = e.target.value
+    filtradasTexto = filtrarTexto(data.events, texto)
+    filtrarTodo(filtradasTexto, filtradasCategoria)
 })
 
 const checks = document.querySelectorAll(".form-check")
@@ -92,19 +99,20 @@ checks.forEach(check => {
     check.addEventListener('change', () => {
         if(check.children[0].checked) {
             let texto = check.children[1].textContent
-            filtradasPorCat = filtradasPorCat.concat(filtrarCategoria(noFiltradas, texto))
-            renderizarCartas(filtradasPorCat)
+            filtradasCategoria = filtradasCategoria.concat(filtrarCategoria(data.events, texto))
         } else {
             let texto = check.children[1].textContent
-            filtradasPorCat = limpiarFiltro(filtradasPorCat, texto)
-            if(!filtradasPorCat.length) {
-                renderizarCartas(data.events)
-            } else {
-                renderizarCartas(filtradasPorCat)
-            }
+            filtradasCategoria = limpiarFiltro(filtradasCategoria, texto)
         }
+        filtrarTodo(filtradasTexto, filtradasCategoria)
     })
-}) 
+})  
+
+
+
+
+
+
 
 
 
