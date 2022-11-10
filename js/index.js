@@ -6,7 +6,7 @@ renderizarCartas(data.events)
 function renderizarCartas(array) {
     fragment.innerHTML = ''
     if(!array.length) {
-        fragment.innerHTML = `<h3 style="text-align: center">No hay eventos que coincidan con el criterio de búsqueda</h3>`
+        fragment.innerHTML = `<h3 style="text-align: center; align-self: center">No hay eventos que coincidan con el criterio de búsqueda</h3>`
     } else {
         array.forEach(event => {
             let card = document.createElement('div')
@@ -66,7 +66,7 @@ function filtrarCategoria(array, texto) {
 function filtrarTodo(filtradasTexto, filtradasCategoria) {
     let filtradas;
     if(!filtradasTexto.length && !filtradasCategoria.length) {
-        filtradas = data.events
+        filtradas = []
     } else if(!filtradasCategoria.length) {
         filtradas = filtradasTexto
     } else if (!filtradasTexto.length) {
