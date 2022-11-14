@@ -121,7 +121,7 @@ footer h2 {
 }
 
 table, th, td {
-    border-collapse: collapse   ;
+    border-collapse: collapse;
     border: 1px solid;
 }
 table {
@@ -135,6 +135,11 @@ th {
 }
 td {
     padding: .2rem;
+}
+.titles {
+    font-weight: bold;
+    font-size: 1.04rem;
+    text-align: center;
 }
 .table-container {
     display: flex;

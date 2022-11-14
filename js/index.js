@@ -1,7 +1,25 @@
+let data
+fetch('https://amazing-events.herokuapp.com/api/events')
+    .then(response => response.json())
+    .then(webData => {
+        data = webData
+        ejecutar(data)
+    })
+
+function ejecutar(data) {
+    let filtradasTexto = data.events
+    let filtradasCategoria = []
+    renderizarCartas(data.events)
+    createCheckboxes(data)
+    inputEventListener(filtradasTexto, filtradasCategoria, data)
+    checkboxEventListener(filtradasCategoria, filtradasTexto, data)
+}
+
+
 let fragment = document.createElement('div')
 fragment.classList.add('second-row', 'row')
 
-renderizarCartas(data.events)
+
 
 function renderizarCartas(array) {
     fragment.innerHTML = ''
@@ -36,17 +54,19 @@ let checksContainer = document.querySelector('.checks')
 
 
 let count = 1;
-data.events.forEach(event => {
-    if((Array.from(checksContainer.children)).find(c => c.outerText === event.category)) {
-        return;
-    }
-    let check = document.createElement('div')
-    check.classList.add('form-check', 'form-check-inline')
-    check.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox${count}" value="id${event._id}">
-                       <label class="form-check-label" for="checkbox${count}">${event.category}</label>`
-    checksContainer.appendChild(check)
-    count++;
-})
+function createCheckboxes(data) {
+    data.events.forEach(event => {
+        if((Array.from(checksContainer.children)).find(c => c.outerText === event.category)) {
+            return;
+        }
+        let check = document.createElement('div')
+        check.classList.add('form-check', 'form-check-inline')
+        check.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox${count}" value="id${event._id}">
+                           <label class="form-check-label" for="checkbox${count}">${event.category}</label>`
+        checksContainer.appendChild(check)
+        count++;
+    })
+}
 
 
 
@@ -83,19 +103,22 @@ function limpiarFiltro(array, texto) {
     return eliminarFiltro;
 }
 
-let filtradasCategoria = []
-let filtradasTexto = data.events
 
-const input = document.querySelector('.form-control');  
-input.addEventListener('keyup', (e) => {
+
+
+function inputEventListener(filtradasTexto, filtradasCategoria, data) {
+    const input = document.querySelector('.form-control');  
+    input.addEventListener('keyup', (e) => {
     let texto = e.target.value
     filtradasTexto = filtrarTexto(data.events, texto)
     filtrarTodo(filtradasTexto, filtradasCategoria)
-})
+    })
+}
 
-const checks = document.querySelectorAll(".form-check")
-console.log([checks])
-checks.forEach(check => {
+function checkboxEventListener(filtradasCategoria, filtradasTexto, data) {
+    const checks = document.querySelectorAll(".form-check")
+    console.log([checks])
+    checks.forEach(check => {
     check.addEventListener('change', () => {
         if(check.children[0].checked) {
             let texto = check.children[1].textContent
@@ -107,6 +130,7 @@ checks.forEach(check => {
         filtrarTodo(filtradasTexto, filtradasCategoria)
     })
 })  
+}
 
 
 
